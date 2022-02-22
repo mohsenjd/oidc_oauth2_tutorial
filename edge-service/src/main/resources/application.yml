@@ -1,0 +1,25 @@
+server:
+  port: 9001
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: book-route
+          uri: http://localhost:9002
+          predicates:
+            - Path=/books/**
+      default-filters:
+        - TokenRelay
+        - SaveSession
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: edge-service
+            client-secret: b0a37860-631d-4d9e-9831-340f18906402
+            scope: openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/auth/realms/bookShop
